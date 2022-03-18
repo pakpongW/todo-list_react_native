@@ -12,7 +12,7 @@ export default function App() {
         <Text style={styles.sectionTitle}>Todo-List</Text>
 
       < View style={styles.items}>
-        <Task />
+        <Task  />     
       </View>
 
       </View>
