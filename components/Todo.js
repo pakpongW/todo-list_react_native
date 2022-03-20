@@ -1,12 +1,12 @@
 import React from 'react';
-import { View,Text, StyleSheet, } from 'react-native';
+import { View,Text, StyleSheet, Pressable, } from 'react-native';
 
 const Todo = (props) => {
 
     return(
         <View style={styles.item}>
             <View style={styles.itemLeft}>
-                <View style={styles.square}></View>
+                <Pressable style={styles.square}></Pressable>
                 <Text style={styles.itemText}>{props.text}</Text>
             </View>
             <View style={styles.circular}></View>
@@ -17,39 +17,46 @@ const Todo = (props) => {
 
     const styles = StyleSheet.create({
         item: {
-            backgroundColor: '#FFF',
-            paddingTop: 10,
-            paddingHorizontal: 15,
+            backgroundColor: `#f0f8ff`,
+            height: 70,
             borderRadius: 10,
             flexDirection: 'row',
             alignItems: 'center',
+            paddingHorizontal: 20,
             justifyContent: 'space-between',
-            marginBottom: 10,
+            marginBottom: 5,
             borderColor: '#3DA9FC',
         },
         itemLeft: {
             flexDirection: 'row',
-            alignItems: 'center',
             flexWrap: 'wrap'
         },
         square: {
-            width: 24,
-            height: 24,
+            width: 45,
+            height: 45,
             backgroundColor: '#55BCF6',
-            opacity: 0.4,
-            borderRadius: 5,
-            marginRight: 15,
+            opacity: 0.5,
+            borderRadius: 25,
+            marginRight: 10,
         },
         itemText: {
             maxWidth: '80%',
+            fontSize: 17,
         },
         circular: {
-            width: 12,
-            height: 12,
+            width: 20,
+            height: 20,
             borderColor: '#55BCF6',
             borderWidth: 2,
             borderRadius: 5,
         },
+        // position: 'absolute',
+        // height: 70,
+        // left: 12,
+        // right: 13,
+        // top: 0,
+        // backgroundColor: `#f0f8ff`,
+        // borderRadius: 20,
     });
 
 export default Todo;
