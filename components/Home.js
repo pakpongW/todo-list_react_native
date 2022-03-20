@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -13,14 +13,11 @@ import {
 } from "react-native";
 import Todo from "./Todo";
 
-export default function Home() {
+export default function Home({ route,navigation }) {
     const [todo, settodo] = useState();
     const [todoItems, settodoItems] = useState([]);
 
     const handleAddTodo = () => {
-        Keyboard.dismiss();
-        settodoItems([...todoItems, todo]);
-        settodo(null);
         navigation.navigate('Add');
     };
 
@@ -31,15 +28,19 @@ export default function Home() {
     };
 
     const handleSearch = () => {
-        Alert.alert("Search press");
+        console.log(todoItems)
+        //Alert.alert("Search press"); 
     };
 
     React.useEffect(() => {
-        if (route.params?.Todo) {
-            settodoItems([...todoItems, route.params.Todo.title]);
-            console.log(route.params.Todo)
+        if (route.params?.newitem) {
+            settodoItems([...todoItems, route.params.newitem.title ]);
+            console.log(route.params.newitem)
         }
-      }, [route.params?.Todo]);
+        navigation.setParams({
+            newitem: null
+        });
+      }, [route.params?.newitem]);
 
     return (
         <View style={styles.container}>
@@ -52,7 +53,7 @@ export default function Home() {
                         <TextInput
                             style={styles.Search_Holder}
                             placeholder={"Search"}
-                        ></TextInput>
+                        />
                     </View>
 
                     <Pressable
@@ -83,7 +84,7 @@ export default function Home() {
                                     key={index}
                                     onPress={() => completeTodo(index)}
                                 >
-                                    <Todo text={item} />
+                                    <Todo text={"item"} />
                                 </TouchableOpacity>
                             );
                         })}
@@ -92,23 +93,15 @@ export default function Home() {
             </View>
 
             {/* ส่วนของ Add-todo ปุ่ม + กับ ช่องใส่หัวข้อ  */}
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            <View
                 style={styles.writeTodoWrapper}
             >
-                <TextInput
-                    style={styles.input}
-                    placeholder={"Write a todo"}
-                    value={todo}
-                    onChangeText={(text) => settodo(text)}
-                />
-
                 <TouchableOpacity onPress={() => handleAddTodo()}>
                     <View style={styles.Add_Button}>
                         <Text style={styles.addText}>+</Text>
                     </View>
                 </TouchableOpacity>
-            </KeyboardAvoidingView>
+            </View>
         </View>
     );
 }

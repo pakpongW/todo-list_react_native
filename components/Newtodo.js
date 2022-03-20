@@ -14,7 +14,7 @@ import {
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function Newtodo() {
+export default function Newtodo( { navigation } ) {
 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
@@ -61,16 +61,18 @@ export default function Newtodo() {
     };
 
     const handlesave = () => {
+        var newitem = {
+            title : title,
+            description : des,
+            date : dateText,
+            time : timeText
+        }
         navigation.navigate({
             name: 'Home',
-            params: { Todo: {
-                'title' : title,
-                'description' : des,
-                'date' : dateText,
-                'time' : timeText
-            } },
+            params: { newitem },
             merge: true,
-          })
+        })
+        
     };
     
     return (
