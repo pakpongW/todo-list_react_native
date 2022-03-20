@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
         left: 0,
         top: 135,
         backgroundColor: "#FFFFFF",
-        borderTopLeftRadius: 50,
-        borderTopRightRadius: 50,
+        borderTopLeftRadius: 45,
+        borderTopRightRadius: 45,
     },
     Search_Footer: {
         position: "absolute",
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         width: 412,
         height: 530,
         left: 0,
-        top: 155,
+        top: 161,
         backgroundColor: "#FFFFFF",
     },
     writeTodoWrapper: {
