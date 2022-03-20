@@ -21,6 +21,7 @@ export default function Home() {
         Keyboard.dismiss();
         settodoItems([...todoItems, todo]);
         settodo(null);
+        navigation.navigate('Add');
     };
 
     const completeTodo = (index) => {
@@ -32,6 +33,13 @@ export default function Home() {
     const handleSearch = () => {
         Alert.alert("Search press");
     };
+
+    React.useEffect(() => {
+        if (route.params?.Todo) {
+            settodoItems([...todoItems, route.params.Todo.title]);
+            console.log(route.params.Todo)
+        }
+      }, [route.params?.Todo]);
 
     return (
         <View style={styles.container}>

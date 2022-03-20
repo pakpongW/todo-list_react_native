@@ -1,8 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import {
     StyleSheet,
-    Text,
+    Text, 
     View,
     TextInput,
     Pressable,
@@ -11,6 +11,7 @@ import {
     Alert,
     Platform,
 } from "react-native";
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function Newtodo() {
@@ -20,6 +21,9 @@ export default function Newtodo() {
     const [show, setShow] = useState(false);
     const [dateText, setdateText] = useState('Empty');
     const [timeText, settimeText] = useState('Empty')
+
+    const [title,setTitle] = useState('');
+    const [des,setDes] = useState('');
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -53,11 +57,20 @@ export default function Newtodo() {
     }
 
     const handleback = () => {
-        Alert.alert("go back");
+        navigation.goBack()
     };
 
     const handlesave = () => {
-        Alert.alert("Save");
+        navigation.navigate({
+            name: 'Home',
+            params: { Todo: {
+                'title' : title,
+                'description' : des,
+                'date' : dateText,
+                'time' : timeText
+            } },
+            merge: true,
+          })
     };
     
     return (
@@ -83,12 +96,24 @@ export default function Newtodo() {
                     <Text style={styles.Text_size}>Title name:</Text>
                     
                     <View style={styles.Name_square}>
-                        <TextInput style={styles.Name_input} placeholder='Enter the name'></TextInput>
+                        <TextInput 
+                            style={styles.Name_input} 
+                            placeholder='Enter the name'
+                            value = {title}
+                            onChangeText = {(text) => setTitle(text)}
+                        />
                     </View>
 
                     <Text style={styles.Text_size}>Detail:</Text>
                     <View style={styles.Detail_square}>
-                        <TextInput style={styles.Detail_input} multiline={true} editable={true} placeholder='Note something?'></TextInput>
+                        <TextInput 
+                            style={styles.Detail_input} 
+                            multiline={true} 
+                            editable={true} 
+                            placeholder='Note something?'
+                            value = {des}
+                            onChangeText = {(text) => setDes(text)}
+                        />
                     </View>
 
                     <View style={styles.Datetime_footer} >
