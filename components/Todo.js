@@ -1,21 +1,48 @@
 import React from 'react';
 import { View,Text, StyleSheet, Pressable, Image, } from 'react-native';
+import TodoDataService from "../services/todo.service";
 
-const Todo = (props) => {
+const Todo = (props ,{ navigation }) => {
+    const data = props.todo
 
+    const setStatus = () => {
     
+        data.published = ! data.published
+
+        TodoDataService.update(data.id,data)
+            .then(response => {
+               
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
+    const setFav = () => {
+    
+        data.favourite = ! data.favourite
+
+        TodoDataService.update(data.id,data)
+            .then(response => {
+                
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
     return(
         <View style={styles.item}>
             <View style={styles.itemLeft}>
-                <Pressable style={styles.Complete_footer}>
-                    <Image source={require('../image/incomplete.png')} style={styles.Complete_size}></Image>
+                <Pressable style={styles.Complete_footer} onPress={() => setStatus() } >
+                    <Image source={ data.published ? require('../image/complete.png') : require('../image/incomplete.png') } style={styles.Complete_size}></Image>
                 </Pressable>
                 <View>
-                    <Text style={styles.Item_text} numberOfLines={1} ellipsizeMode={'tail'}>{props.text}</Text>
+                    <Text style={styles.Item_text} numberOfLines={1} ellipsizeMode={'tail'}>{data.title}</Text>
                     <View style={{flexDirection: 'row'}}>
-                        <Image source={require('../image/clock.png')} style={styles.Clock_size}> 
+                        <Image source={ require('../image/clock.png')} style={styles.Clock_size}> 
                         </Image>
-                        <Text style={styles.Time_text}>22/3/2022-20:26</Text>
+                        <Text style={styles.Time_text}>{data.datetime}</Text>
                     </View>
                     
                 </View>
@@ -23,14 +50,14 @@ const Todo = (props) => {
             </View>
             <View style={styles.Icon_footer}>
                 <View style={styles.Edit_footer}>
-                    <Pressable style={styles.Edit_icon}>
+                    <Pressable style={styles.Edit_icon} onPress={() => props.onPress() } >
                         <Image source={require('../image/edit.png')} style={styles.Edit_size}> 
                         </Image>
                     </Pressable>
                 </View>
-                <View style={styles.favourite_footer}>
-                    <Pressable style={styles.Edit_icon}>
-                        <Image source={require('../image/unfavourite.png')} style={styles.Edit_size}> 
+                <View style={styles.favourite_footer} >
+                    <Pressable style={styles.Edit_icon} onPress={() => setFav()} >
+                        <Image source={ data.favourite ? require('../image/favourite.png'):require('../image/unfavourite.png')} style={styles.Edit_size}> 
                         </Image>
                     </Pressable>
                 </View>

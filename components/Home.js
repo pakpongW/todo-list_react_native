@@ -15,10 +15,12 @@ import Todo from "./Todo";
 import TodoDataService from "../services/todo.service";
 
 export default function Home({ route,navigation }) {
+    const [Items, setItems] = useState();
     const [todoItems, settodoItems] = useState([]);
 
     useEffect(() => {
-        retrieveTodo();
+        if(Items == null)
+            retrieveTodo();
     }, [todoItems]);
 
     const retrieveTodo = () => {
@@ -26,7 +28,6 @@ export default function Home({ route,navigation }) {
             .then(response => {
                 settodoItems(response.data)
             })
-            
             .catch(e => {
                 console.log(e);
             });
@@ -36,14 +37,25 @@ export default function Home({ route,navigation }) {
         navigation.navigate('Add');
     };
 
+    const handleedit = () => {
+        navigation.navigate('Edit');
+    }
+
     const completeTodo = (index) => {
         let itemsCopy = [...todoItems];
         itemsCopy.splice(index, 1);
         settodoItems(itemsCopy);
     };
 
-    const handleSearch = () => {
-        Alert.alert("Search press"); 
+    const handleSearch = (text) => {
+        const Items = text
+        TodoDataService.findByTitle(Items)
+        .then(response => {
+            settodoItems(response.data)
+        })
+        .catch(e => {
+            console.log(e);
+        });
     };
 
     return (
@@ -57,6 +69,7 @@ export default function Home({ route,navigation }) {
                         <TextInput
                             style={styles.Search_Holder}
                             placeholder={"Search"}
+                            onChangeText = {(text) => { handleSearch(text)  }  }
                         />
                     </View>
 
@@ -86,7 +99,10 @@ export default function Home({ route,navigation }) {
                                     key={index}
                                     onPress={() => completeTodo(index)}
                                 >
-                                    <Todo text={item.title} />
+                                    <Todo 
+                                        todo = {item} 
+                                        onPress = {() => handleedit()}
+                                    />
                                 </TouchableOpacity>
                             );
                         })}

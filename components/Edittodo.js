@@ -14,7 +14,7 @@ import {
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function Newtodo( { navigation } ) {
+export default function Edit( { navigation } ) {
 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
@@ -24,7 +24,7 @@ export default function Newtodo( { navigation } ) {
 
     const [title,setTitle] = useState('');
     const [des,setDes] = useState('');
-
+    
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');

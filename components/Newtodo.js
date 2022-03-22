@@ -62,7 +62,6 @@ export default function Newtodo( { navigation } ) {
 
     const handlesave = () => {
         const datenew = dateText+"-"+timeText
-        console.log(datenew)
         const data = {
             title : title,
             description : des,
