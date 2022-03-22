@@ -70,15 +70,13 @@ export default function Home({ route,navigation }) {
                 </View>
             </View>
 
-            {/* ส่วนโค้งสีขาวข้างใต้ search_title  */}
-            <View style={styles.Header}></View>
-
             {/* ส่วนของ todo-list เลื่อนขึ้นเลื่อนลงได้เมื่อเกินหน้าจอ   */}
             <View style={styles.Body_footer}>
                 <ScrollView
                     contentContainerStyle={{
                         flexGrow: 1,
                     }}
+                    style={styles.Scrollview_size}
                     keyboardShouldPersistTaps="handled"
                 >
                     <View style={styles.items}>
@@ -125,15 +123,16 @@ const styles = StyleSheet.create({
     },
     Header_Title: {
         position: "absolute",
-        width: 117,
+        width: 160,
         height: 28,
-        left: 150,
+        left: 127,
         top: 40,
         fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
-        fontSize: 24,
+        fontSize: 28,
         lineHeight: 28,
+        fontWeight: 'bold',
         textAlign: "center",
         color: "#FFFFFF",
     },
@@ -200,13 +199,23 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: 412,
         height: 530,
-        left: 0,
-        top: 161,
+        top: 130,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        backgroundColor: "#FFFFFF"
+    },
+    Scrollview_size:{
+        position: "absolute",
+        width: 410,
+        height: 450,
+        borderRadius: 40,
+        padding: 15,
+        top: 20,
         backgroundColor: "#FFFFFF",
     },
     writeTodoWrapper: {
         position: "absolute",
-        bottom: 20,
+        bottom: 5,
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-around",

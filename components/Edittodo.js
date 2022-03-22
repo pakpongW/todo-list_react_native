@@ -11,8 +11,8 @@ import {
     Alert,
     Platform,
 } from "react-native";
+
 import DateTimePicker from '@react-native-community/datetimepicker';
-import TodoDataService from "../services/todo.service";
 
 export default function Newtodo( { navigation } ) {
 
@@ -60,26 +60,19 @@ export default function Newtodo( { navigation } ) {
         navigation.goBack()
     };
 
-    const handlesave = () => {
-        const datenew = dateText+"-"+timeText
-        console.log(datenew)
-        const data = {
+    const handleSave = () => {
+        var newitem = {
             title : title,
             description : des,
-            datetime : datenew,
-            published : false,
-            favourite : false
-        };
-        TodoDataService.create(data)
-        .then(response => {
-            navigation.navigate({
-                name: 'Home',
-            })
+            date : dateText,
+            time : timeText
+        }
+        navigation.navigate({
+            name: 'Home',
+            params: { newitem },
+            merge: true,
         })
-        .catch(e => {
-            console.log(e);
-        });
-
+        
     };
     
     return (
@@ -149,18 +142,25 @@ export default function Newtodo( { navigation } ) {
                             display='default'
                             onChange={onChange}
                             />)}
-                    
+
                     </View>
 
                 </ScrollView>
                 
-                <View style={styles.SaveBT_footer}>
-                    <Pressable style={styles.Save_icon} onPress={() => handlesave()}>
-                        <Text style={styles.Save_text}>SAVE</Text>
-                    </Pressable>
+                <View style={styles.BT_footer}>
+                    <View style={styles.SaveBT_footer}>
+                        <Pressable style={styles.Save_icon} onPress={() => handleSave()}>
+                            <Text style={styles.Save_text}>SAVE</Text>
+                        </Pressable>
+                    </View>
+                    <View style={styles.DeleteBT_footer}>
+                        <Pressable style={styles.Delete_icon} onPress={() => handleDelete()}>
+                            <Text style={styles.Delete_text}>DELETE</Text>
+                        </Pressable>
+                    </View>
                 </View>
+
             </View>
-            
 
 
         </View>
@@ -223,12 +223,13 @@ const styles = StyleSheet.create({
         height: 60,
     },
     Scrollview_size:{
-        position: "absolute",
+        position: "relative",
         width: 395,
         height: 470,
         left: 8,
         borderRadius: 20,
         padding: 15,
+        marginBottom: 10,
         backgroundColor: "#FFFFFF",
     },
     Text_size:{
@@ -346,25 +347,30 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
     }, 
+    BT_footer:{
+        position: 'relative',
+        flexDirection: "row",
+        justifyContent: "space-around", 
+    },  
     SaveBT_footer:{
-        position: "absolute",
-        bottom: 50,
-        width: "100%",
-        alignItems: "center",
+        position: "relative",
+        width: 170,
+        height: 50,
+        borderRadius: 40,
     },
     Save_icon:{
         position: 'absolute',
-        width: 200,
+        width: 170,
         height: 50,
         borderRadius: 40,
         backgroundColor: '#3DA9FC' 
     },
     Save_text:{
         position: "absolute",
-        width: 117,
+        width: 110,
         height: 28,
         top: 10,
-        left: 40,
+        left: 30,
         
         fontFamily: "Roboto",
         fontStyle: "normal",
@@ -374,7 +380,32 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFFFF",
     },
-    Image_icon:{
-
+    DeleteBT_footer:{
+        position: "relative",
+        width: 170,
+        height: 50,
+        borderRadius: 40,
+    },
+    Delete_icon:{
+        position: 'absolute',
+        width: 170,
+        height: 50,
+        borderRadius: 40,
+        backgroundColor: `#dc143c` 
+    },
+    Delete_text:{
+        position: "absolute",
+        width: 110,
+        height: 28,
+        top: 10,
+        left: 30,
+        
+        fontFamily: "Roboto",
+        fontStyle: "normal",
+        fontWeight: "700",
+        fontSize: 24,
+        lineHeight: 28,
+        textAlign: "center",
+        color: "#FFFFFF",
     },
 });
