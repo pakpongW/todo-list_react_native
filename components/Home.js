@@ -12,10 +12,25 @@ import {
     Keyboard,
 } from "react-native";
 import Todo from "./Todo";
+import TodoDataService from "../services/todo.service";
 
 export default function Home({ route,navigation }) {
-    const [todo, settodo] = useState();
     const [todoItems, settodoItems] = useState([]);
+
+    useEffect(() => {
+        retrieveTodo();
+    }, [todoItems]);
+
+    const retrieveTodo = () => {
+        TodoDataService.getAll()
+            .then(response => {
+                settodoItems(response.data)
+            })
+            
+            .catch(e => {
+                console.log(e);
+            });
+    };
 
     const handleAddTodo = () => {
         navigation.navigate('Add');
@@ -28,19 +43,8 @@ export default function Home({ route,navigation }) {
     };
 
     const handleSearch = () => {
-        console.log(todoItems)
-        //Alert.alert("Search press"); 
+        Alert.alert("Search press"); 
     };
-
-    React.useEffect(() => {
-        if (route.params?.newitem) {
-            settodoItems([...todoItems, route.params.newitem.title ]);
-            console.log(route.params.newitem)
-        }
-        navigation.setParams({
-            newitem: null
-        });
-      }, [route.params?.newitem]);
 
     return (
         <View style={styles.container}>
@@ -84,7 +88,7 @@ export default function Home({ route,navigation }) {
                                     key={index}
                                     onPress={() => completeTodo(index)}
                                 >
-                                    <Todo text={"item"} />
+                                    <Todo text={item.title} />
                                 </TouchableOpacity>
                             );
                         })}

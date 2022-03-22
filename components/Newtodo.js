@@ -11,8 +11,8 @@ import {
     Alert,
     Platform,
 } from "react-native";
-
 import DateTimePicker from '@react-native-community/datetimepicker';
+import TodoDataService from "../services/todo.service";
 
 export default function Newtodo( { navigation } ) {
 
@@ -61,18 +61,25 @@ export default function Newtodo( { navigation } ) {
     };
 
     const handlesave = () => {
-        var newitem = {
+        const datenew = dateText+"-"+timeText
+        console.log(datenew)
+        const data = {
             title : title,
             description : des,
-            date : dateText,
-            time : timeText
-        }
-        navigation.navigate({
-            name: 'Home',
-            params: { newitem },
-            merge: true,
+            datetime : datenew,
+            published : false,
+            favourite : false
+        };
+        TodoDataService.create(data)
+        .then(response => {
+            navigation.navigate({
+                name: 'Home',
+            })
         })
-        
+        .catch(e => {
+            console.log(e);
+        });
+         
     };
     
     return (

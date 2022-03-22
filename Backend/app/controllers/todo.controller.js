@@ -16,6 +16,7 @@ exports.create = (req, res) => {
     const todo = {
       title: req.body.title,
       description: req.body.description,
+      datetime : req.body.datetime,
       published: req.body.published ? req.body.published : false,
       favourite: req.body.favourite ? req.body.favourite : false
     };
