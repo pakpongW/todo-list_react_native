@@ -37,8 +37,8 @@ export default function Home({ route,navigation }) {
         navigation.navigate('Add');
     };
 
-    const handleedit = () => {
-        navigation.navigate('Edit');
+    const handleedit = (item) => {
+        navigation.navigate('Edit', item);
     }
 
     const completeTodo = (index) => {
@@ -101,7 +101,7 @@ export default function Home({ route,navigation }) {
                                 >
                                     <Todo 
                                         todo = {item} 
-                                        onPress = {() => handleedit()}
+                                        onPress = {() => handleedit({item})}
                                     />
                                 </TouchableOpacity>
                             );
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         height: 28,
         left: 127,
         top: 40,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 28,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         height: 21,
         top: 10,
         left: 5,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 18,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         height: 28,
         top: 7,
         left: 15,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 20,
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: 38,
         height: 38,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 48,

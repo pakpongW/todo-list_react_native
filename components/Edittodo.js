@@ -1,5 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text, 
@@ -13,18 +13,32 @@ import {
 } from "react-native";
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+import TodoDataService from "../services/todo.service";
 
-export default function Edit( { navigation } ) {
+export default function Edit( { route,navigation } ) {
 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-    const [dateText, setdateText] = useState('Empty');
-    const [timeText, settimeText] = useState('Empty')
+    const [dateText, setdateText] = useState("EMPTY");
+    const [timeText, settimeText] = useState("EMPTY");
 
-    const [title,setTitle] = useState('');
-    const [des,setDes] = useState('');
+    const [title,setTitle] = useState("");
+    const [des,setDes] = useState("");
     
+    const data = route.params.item;
+    const datearray = data.datetime.split("-");
+    // console.log(datearray)
+    React.useEffect(() => {
+        if (route.params?.item) {
+            setTitle(data.title);
+            setDes(data.description);
+            
+            setdateText(datearray[0]);
+            settimeText(datearray[1]);
+        }
+      }, [route.params?.Todo]);
+
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
@@ -61,17 +75,26 @@ export default function Edit( { navigation } ) {
     };
 
     const handleSave = () => {
-        var newitem = {
+        const datenew = dateText+"-"+timeText
+        const dataNew = {
             title : title,
             description : des,
-            date : dateText,
-            time : timeText
-        }
+            datetime : datenew,
+            published : false,
+            favourite : false
+        };
         navigation.navigate({
-            name: 'Home',
-            params: { newitem },
-            merge: true,
+                    name: 'Home',
+                })
+        TodoDataService.update(data.id,dataNew)
+        .then(response => {
+            navigation.navigate({
+                name: 'Home',
+            })
         })
+        .catch(e => {
+            console.log(e);
+        });
         
     };
     
@@ -186,7 +209,7 @@ const styles = StyleSheet.create({
         height: 28,
         left: 150,
         top: 40,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 24,
@@ -233,7 +256,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
     },
     Text_size:{
-        fontFamily: 'Roboto',
+        // fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 24,
@@ -257,7 +280,7 @@ const styles = StyleSheet.create({
         height: 28,
         top: 5,
         left: 10,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 16,
@@ -279,7 +302,7 @@ const styles = StyleSheet.create({
         height: 400,
         top: 5,
         left: 10,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 16,
@@ -293,7 +316,7 @@ const styles = StyleSheet.create({
         width: 330,
         height: 28,
         left: 10,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 16,
@@ -336,7 +359,7 @@ const styles = StyleSheet.create({
         width: 330,
         height: 28,
         left: 10,
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "400",
         fontSize: 16,
@@ -372,7 +395,7 @@ const styles = StyleSheet.create({
         top: 10,
         left: 30,
         
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "700",
         fontSize: 24,
@@ -400,7 +423,7 @@ const styles = StyleSheet.create({
         top: 10,
         left: 30,
         
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontStyle: "normal",
         fontWeight: "700",
         fontSize: 24,
