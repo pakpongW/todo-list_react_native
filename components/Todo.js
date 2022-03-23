@@ -1,9 +1,10 @@
-import React from 'react';
-import { View,Text, StyleSheet, Pressable, Image, } from 'react-native';
+import React, { useState } from 'react';
+import { View,Text, StyleSheet, Pressable, Image, Modal, ScrollView } from 'react-native';
 import TodoDataService from "../services/todo.service";
 
 const Todo = (props ,{ navigation }) => {
     const data = props.todo
+    const [modalVisible, setModalVisible] = useState(false);
 
     const setStatus = () => {
     
@@ -11,7 +12,6 @@ const Todo = (props ,{ navigation }) => {
 
         TodoDataService.update(data.id,data)
             .then(response => {
-               
             })
             .catch(e => {
                 console.log(e);
@@ -30,6 +30,7 @@ const Todo = (props ,{ navigation }) => {
                 console.log(e);
             });
     }
+    
 
     return(
         <View style={styles.item}>
@@ -37,7 +38,46 @@ const Todo = (props ,{ navigation }) => {
                 <Pressable style={styles.Complete_footer} onPress={() => setStatus() } >
                     <Image source={ data.published ? require('../image/complete.png') : require('../image/incomplete.png') } style={styles.Complete_size}></Image>
                 </Pressable>
-                <View>
+
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                    }}>
+
+                    <View style={styles.CenteredView}>
+                        <View style={styles.ModalView}>
+                            
+                            <ScrollView style={styles.Scrollview_size}>
+                                
+                                
+                                <Text style={styles.Title_text} numberOfLines={1} ellipsizeMode={'tail'} >{data.title}</Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Image source={ require('../image/clock.png')} style={styles.Clock_size}> 
+                                    </Image>
+                                    <Text style={styles.Time_text}>{data.datetime}</Text>
+                                </View>
+                                <Text style={styles.Detail_title}>Detail</Text>
+                                <Text style={styles.In_detail}>{data.description}</Text>
+                            </ScrollView>
+
+                            <Pressable  style={styles.Button_close} onPress={() => setModalVisible(!modalVisible)}>
+                                <Image source={require('../image/cancel.png')} style={styles.Cancel_size}> 
+                                </Image>
+                            </Pressable>
+
+                            
+                            
+                        </View>
+                    </View>
+                    
+                </Modal>
+                <Pressable  style={styles.Button_open}  onPress={() => setModalVisible(true)}>
+
                     <Text style={styles.Item_text} numberOfLines={1} ellipsizeMode={'tail'}>{data.title}</Text>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={ require('../image/clock.png')} style={styles.Clock_size}> 
@@ -45,8 +85,9 @@ const Todo = (props ,{ navigation }) => {
                         <Text style={styles.Time_text}>{data.datetime}</Text>
                     </View>
                     
-                </View>
+                </Pressable>
                     
+
             </View>
             <View style={styles.Icon_footer}>
                 <View style={styles.Edit_footer}>
@@ -146,6 +187,71 @@ const Todo = (props ,{ navigation }) => {
             height: 20,
             marginRight: 3,
         },
+        CenteredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        ModalView: {
+            backgroundColor: "white",
+            width: 370,
+            height: 500,
+            borderColor: '#094067',
+            borderWidth: 5,
+            borderRadius: 50,
+        },
+        Scrollview_size:{
+            position: "absolute",
+            top: 20,
+            width: 340,
+            height: 450,
+            left: 10,
+            borderRadius: 20,
+            padding: 15,
+            marginBottom: 10,
+            // backgroundColor: '#094067',
+        },
+        Button_open: {
+            width: 200,
+            // backgroundColor: '#094067'
+        },
+        Button_close:{
+            top: 20,
+            left: 300,
+            borderRadius: 10,
+            width: 40,
+            height: 40,
+        },
+        Cancel_size:{
+            width: 40,
+            height: 40,
+        },
+        Title_text:{ 
+            fontStyle: 'normal',
+            fontWeight: '400',
+            fontSize: 28,
+            lineHeight: 28,
+            width: 200,
+            color: '#094067',
+            marginBottom: 10,
+        },  
+        Detail_title:{
+            fontStyle: 'normal',
+            fontWeight: '400',
+            fontSize: 20,
+            lineHeight: 28,
+            width: 200,
+            color: '#094067',
+            marginBottom: 10,
+            marginTop: 10,
+        },
+        In_detail:{
+            fontSize: 20,
+            width: 300,
+            // backgroundColor: '#094067',
+
+        },
+
 
     });
 

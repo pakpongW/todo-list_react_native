@@ -41,12 +41,6 @@ export default function Home({ route,navigation }) {
         navigation.navigate('Edit', item);
     }
 
-    const completeTodo = (index) => {
-        let itemsCopy = [...todoItems];
-        itemsCopy.splice(index, 1);
-        settodoItems(itemsCopy);
-    };
-
     const handleSearch = (text) => {
         const Items = text
         TodoDataService.findByTitle(Items)
@@ -95,15 +89,14 @@ export default function Home({ route,navigation }) {
                     <View style={styles.items}>
                         {todoItems.map((item, index) => {
                             return (
-                                <TouchableOpacity
+                                <View
                                     key={index}
-                                    onPress={() => completeTodo(index)}
                                 >
                                     <Todo 
                                         todo = {item} 
                                         onPress = {() => handleedit({item})}
                                     />
-                                </TouchableOpacity>
+                                </View>
                             );
                         })}
                     </View>

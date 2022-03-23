@@ -37,7 +37,7 @@ export default function Edit( { route,navigation } ) {
             setdateText(datearray[0]);
             settimeText(datearray[1]);
         }
-      }, [route.params?.Todo]);
+    }, [route.params?.Todo]);
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -80,8 +80,8 @@ export default function Edit( { route,navigation } ) {
             title : title,
             description : des,
             datetime : datenew,
-            published : false,
-            favourite : false
+            published : data.published,
+            favourite : data.favourite,
         };
         navigation.navigate({
                     name: 'Home',
@@ -100,9 +100,6 @@ export default function Edit( { route,navigation } ) {
 
     const handleDelete = () => {
 
-        navigation.navigate({
-                    name: 'Home',
-                })
         TodoDataService.delete(data.id)
         .then(response => {
             navigation.navigate({
