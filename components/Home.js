@@ -41,8 +41,7 @@ export default function Home({ route,navigation }) {
         navigation.navigate('Edit', item);
     }
 
-    const handleSearch = (text) => {
-        const Items = text
+    const handleSearch = () => {
         TodoDataService.findByTitle(Items)
         .then(response => {
             settodoItems(response.data)
@@ -63,7 +62,7 @@ export default function Home({ route,navigation }) {
                         <TextInput
                             style={styles.Search_Holder}
                             placeholder={"Search"}
-                            onChangeText = {(text) => { handleSearch(text)  }  }
+                            onChangeText = {(text) => { setItems(text)  }  }
                         />
                     </View>
 
