@@ -98,6 +98,7 @@ export default function Home({ route,navigation }) {
                                 </View>
                             );
                         })}
+                        { todoItems.length ? <View></View> : <View><Text>Not Found</Text></View> }
                     </View>
                 </ScrollView>
             </View>
