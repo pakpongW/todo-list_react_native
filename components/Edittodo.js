@@ -97,6 +97,22 @@ export default function Edit( { route,navigation } ) {
         });
         
     };
+
+    const handleDelete = () => {
+
+        navigation.navigate({
+                    name: 'Home',
+                })
+        TodoDataService.delete(data.id)
+        .then(response => {
+            navigation.navigate({
+                name: 'Home',
+            })
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    };
     
     return (
         <View style={styles.container}>
